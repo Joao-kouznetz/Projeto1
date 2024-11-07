@@ -5,11 +5,17 @@ from models import User, Base
 from sqlalchemy import select
 from typing import Annotated  # para ter validaçÕes
 from fastapi import Depends  #
+from dotenv import load_dotenv
+import os
 
 # criando database
 
 # https://docs.sqlalchemy.org/en/20/tutorial/engine.html
-sqlite_file_name = "database.db"
+# Carregar variáveis de ambiente do arquivo .env
+load_dotenv()
+
+# Obter o salt da variável de ambiente
+sqlite_file_name = os.getenv("SALT")
 sqlite_url = f"sqlite:///{sqlite_file_name}"
 
 engine = create_engine(sqlite_url)

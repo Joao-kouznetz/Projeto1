@@ -13,24 +13,6 @@ import uuid
 from uuid import UUID
 
 
-# Carregar variáveis de ambiente do arquivo .env
-load_dotenv()
-
-# Obter o salt da variável de ambiente
-SALT = os.getenv("SALT")
-
-
-# Função para calcular o SHA-256
-def calculate_sha256(input_string: str) -> str:
-    # Cria um objeto hash SHA-256
-    sha256_hash = hashlib.sha256()
-    # Atualiza o hash com a string convertida para bytes
-    input_with_salt = input_string + str(SALT)
-    sha256_hash.update(input_with_salt.encode("utf-8"))
-    # Retorna o hash em formato hexadecimal
-    return sha256_hash.hexdigest()
-
-
 def generate_uuid():
     return str(uuid.uuid4())
 
@@ -58,4 +40,3 @@ class User(Base):
 class UserIn(User):
     def __init__(self, **kw):
         super().__init__(**kw)
-        self.senha = calculate_sha256(self.senha)

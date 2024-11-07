@@ -34,3 +34,26 @@ class User(BaseModel):
         description="email do usuario",
     )
     senha: str = Field(..., description="Coloque a sua senha")
+
+
+class UserValidate(BaseModel):
+    model_config = {"extra": "forbid"}  # proibe atributos extras que não tem no schema
+
+    model_config = {  # maneira mais facil de colocar exemplo
+        "json_schema_extra": {
+            "examples": [
+                {
+                    "nome": "Joao Bresser",
+                    "email": "joao.bresserpereira@gmail.com",
+                    "senha": "1234d",
+                }
+            ]
+        },
+        "from_attributes": True,  # Permite a conversão de modelos ORM
+    }
+    email: EmailStr = Field(  # faz a validação com email
+        ...,
+        # pattern=r"[A-Za-z0-9._%+-]+[@][A-Za-z0-9_%-]+[.]?[A-Za-z0-9_%-]+?[.]com", # isso é se eu quiser verificar o email com uma string ai teria que retirar o Emailstr e colocar str
+        description="email do usuario",
+    )
+    senha: str = Field(..., description="Coloque a sua senha")
