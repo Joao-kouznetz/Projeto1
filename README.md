@@ -32,3 +32,11 @@ As dependências do projeto estão listadas no arquivo requirements.txt. Para in
 ```bash
 pip install -r requirements.txt
 ```
+
+## Colocar api para rodar
+
+```bash
+fastapi dev main.py
+```
+
+# Informações sobre como o projeto é desenvolvido no arquivo DEVELOPER.md
