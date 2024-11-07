@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Query, APIRouter, HTTPException, status
+from fastapi import FastAPI, Query, APIRouter, HTTPException, status, Depends, Request
 from sqlalchemy import select  # para conseguir manipular a base de dados
 from models import User as UserModel
 from models import UserIn as UserModelIn
@@ -10,18 +10,19 @@ from contextlib import asynccontextmanager
 from dotenv import load_dotenv
 import os
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
 
 
 # usado para authenticacao
 import jwt
 from jwt.exceptions import InvalidTokenError
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-
 from datetime import datetime, timedelta, timezone
-
 from passlib.context import CryptContext  # usado para hash
+from typing import Union, Any
 
+
+SALT = os.getenv("SALT")
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
@@ -31,6 +32,14 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 class Token(BaseModel):
     access_token: str
     token_type: str
+
+
+class TokenData(BaseModel):
+    email: str
+    exp: str
+
+
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
 
 # faz codigo abaixo para criar os banco de dados quando a aplicação é inciada
@@ -45,16 +54,17 @@ app = FastAPI(lifespan=lifespan)
 
 # modulo usado para verificar, fazer hash  etc..
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
 
 # funcao para verificar se esta certo o hash
 def verify_password(plain_password, hashed_password):
-    return pwd_context.verify(plain_password, hashed_password)
+    return pwd_context.verify(plain_password + str(SALT), hashed_password)
 
 
 # retorna o password como hash
 def get_password_hash(password):
-    return pwd_context.hash(password)
+    return pwd_context.hash(password + str(SALT))
 
 
 # Utility function to generate a new access token.
@@ -122,7 +132,7 @@ def create_usuario(usuario: UserSchema, session: SessionDB):
     session.commit()
     session.refresh(novo_usuario)
     # Gera o token JWT com o ID ou email do usuário
-    access_token = create_access_token(data={"sub": novo_usuario.email})
+    access_token = create_access_token(data={"email": novo_usuario.email})
     return Token(access_token=access_token, token_type="bearer")
 
 
@@ -148,6 +158,99 @@ def login(session: SessionDB, usuario: UserSchemaValidate):
         )
     access_token = create_access_token(data={"sub": usuario_banco.email})
     return Token(access_token=access_token, token_type="bearer")
+
+
+class JWTBearer(HTTPBearer):
+    def __init__(self, auto_error: bool = True):
+        super(JWTBearer, self).__init__(auto_error=auto_error)
+
+    async def __call__(self, request: Request):
+        credentials: HTTPAuthorizationCredentials = await super(
+            JWTBearer, self
+        ).__call__(request)
+        if credentials:
+            if not credentials.scheme == "Bearer":
+                raise HTTPException(
+                    status_code=403, detail="Invalid authentication scheme."
+                )
+            if not self.verify_jwt(credentials.credentials):
+                raise HTTPException(
+                    status_code=403, detail="Invalid token or expired token."
+                )
+            return credentials.credentials
+        else:
+            raise HTTPException(status_code=403, detail="Invalid authorization code.")
+
+    def verify_jwt(self, jwtoken: str) -> bool:
+        isTokenValid: bool = False
+
+        try:
+            payload = jwt.decode(jwtoken, SECRET_KEY, algorithms=ALGORITHM)
+        except:
+            payload = None
+        if payload:
+            isTokenValid = True
+
+        return isTokenValid
+
+
+async def get_current_user(
+    session: SessionDB, token: str = Depends(JWTBearer())
+) -> UserSchema:
+    try:
+        # Decodifica o token JWT
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        # verificando se esta expirado
+        if datetime.fromtimestamp(payload["exp"]) < datetime.now():
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Token expired",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+    except (jwt.PyJWTError, ValidationError):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Could not validate credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    # Obtém o usuário pelo email do token
+    user = session.query(UserModelIn).filter_by(email=payload["email"]).first()
+    if user is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Could not find user",
+        )
+
+    return UserSchema.model_validate(user)
+
+
+@app.get("/me", tags=["Usuarios"], summary="Get details of currently logged in user")
+async def get_me(user: UserSchema = Depends(get_current_user)):
+    return user
+
+
+# @router_user.get(
+#     "/consultar",
+#     tags=["Usuarios"],
+#     summary="Retorna dados de uma Api",
+#     description="Verifica se o usuário esta cadastrado com o token JWT e se estiver retorna o dado de uma API",
+# )
+# def consulta(session: SessionDB, token: str = Depends(oauth2_scheme)):
+#     credentials_exception = HTTPException(
+#         status_code=status.HTTP_401_UNAUTHORIZED,
+#         detail="Could not validate credentials",
+#         headers={"WWW-Authenticate": "Bearer"},
+#     )
+#     try:
+#         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+#         username: str = payload.get("sub")
+#         if username is None:
+#             raise credentials_exception
+#         token_data = TokenData(username=username)
+#     except InvalidTokenError:
+#         raise credentials_exception
+#     return {"msg": "Deu certo! Voce é bravo!"}
 
 
 app.include_router(router_user, prefix="/usuarios", tags=["Usuarios"])
