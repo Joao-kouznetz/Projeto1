@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Query, APIRouter, HTTPException
+from fastapi import FastAPI, Query, APIRouter, HTTPException, status
 from sqlalchemy import select  # para conseguir manipular a base de dados
 from models import User as UserModel
 from models import UserIn as UserModelIn
@@ -57,6 +57,13 @@ def read_usuarios(
     description="Adiciona um novo usuario com as informações fornecidas.",
 )
 def create_usuario(usuario: UserSchema, session: SessionDB):
+    email_existe = session.query(UserModelIn).filter_by(email=usuario.email).first()
+    if email_existe:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="Email já cadastrado.",
+        )
+
     novo_usuario = UserModelIn(
         **usuario.model_dump(exclude_unset=True)
     )  # coloca todas as infirmacoes de usuario na configuração de UserModel

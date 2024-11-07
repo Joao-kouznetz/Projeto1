@@ -42,14 +42,13 @@ class Base(DeclarativeBase):
 class User(Base):
     __tablename__ = "user_table"
     id: Mapped[UUID] = mapped_column(
-        # default_factory=uuid.uuid4,
         primary_key=True,
         index=True,
         nullable=False,
         default=uuid.uuid4,
     )
     nome: Mapped[str] = mapped_column(String(100))
-    email: Mapped[str] = mapped_column(String(100))
+    email: Mapped[str] = mapped_column(String(100), index=True)
     senha: Mapped[str] = mapped_column(String(100))
 
     def __repr__(self) -> str:
@@ -59,5 +58,4 @@ class User(Base):
 class UserIn(User):
     def __init__(self, **kw):
         super().__init__(**kw)
-        # self.id = generate_uuid()
         self.senha = calculate_sha256(self.senha)
