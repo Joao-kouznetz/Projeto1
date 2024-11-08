@@ -9,3 +9,7 @@ No caso estamos utilizando schema para modelar como seria os parâmetros que sã
 # Autenticação
 
 [link para documentação de jwt](https://fastapi.tiangolo.com/tutorial/security/oauth2-jwt/#about-jwt)
+
+[Como fiz o bearer do jwt](https://testdriven.io/blog/fastapi-jwt-auth/)
+
+[link documentação do jwt](https://pyjwt.readthedocs.io/en/stable/api.html?highlight=decode#jwt.decode)
