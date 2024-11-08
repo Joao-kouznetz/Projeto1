@@ -15,8 +15,6 @@ from pydantic import BaseModel, ValidationError
 
 # usado para authenticacao
 import jwt
-from jwt.exceptions import InvalidTokenError
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from datetime import datetime, timedelta, timezone
 from passlib.context import CryptContext  # usado para hash
 from typing import Union, Any
@@ -54,7 +52,6 @@ app = FastAPI(lifespan=lifespan)
 
 # modulo usado para verificar, fazer hash  etc..
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
 
 # funcao para verificar se esta certo o hash
@@ -73,7 +70,7 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
     if expires_delta:
         expire = datetime.now(timezone.utc) + expires_delta
     else:
-        expire = datetime.now(timezone.utc) + timedelta(minutes=15)
+        expire = datetime.now(timezone.utc) + timedelta(minutes=1)
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
@@ -156,7 +153,7 @@ def login(session: SessionDB, usuario: UserSchemaValidate):
             detail="senha incorreta",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    access_token = create_access_token(data={"sub": usuario_banco.email})
+    access_token = create_access_token(data={"email": usuario_banco.email})
     return Token(access_token=access_token, token_type="bearer")
 
 
@@ -228,29 +225,6 @@ async def get_current_user(
 @app.get("/me", tags=["Usuarios"], summary="Get details of currently logged in user")
 async def get_me(user: UserSchema = Depends(get_current_user)):
     return user
-
-
-# @router_user.get(
-#     "/consultar",
-#     tags=["Usuarios"],
-#     summary="Retorna dados de uma Api",
-#     description="Verifica se o usuário esta cadastrado com o token JWT e se estiver retorna o dado de uma API",
-# )
-# def consulta(session: SessionDB, token: str = Depends(oauth2_scheme)):
-#     credentials_exception = HTTPException(
-#         status_code=status.HTTP_401_UNAUTHORIZED,
-#         detail="Could not validate credentials",
-#         headers={"WWW-Authenticate": "Bearer"},
-#     )
-#     try:
-#         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-#         username: str = payload.get("sub")
-#         if username is None:
-#             raise credentials_exception
-#         token_data = TokenData(username=username)
-#     except InvalidTokenError:
-#         raise credentials_exception
-#     return {"msg": "Deu certo! Voce é bravo!"}
 
 
 app.include_router(router_user, prefix="/usuarios", tags=["Usuarios"])

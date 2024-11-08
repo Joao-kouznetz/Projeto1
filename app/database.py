@@ -42,16 +42,3 @@ def get_session():
 # vai se criado uma dependencia com o fastAPI com yiel para fazer uma a sessão para cada
 # requisição isso garante que so tem uma sessão por requisição
 SessionDB = Annotated[Session, Depends(get_session)]
-
-
-# # Criando instâncias
-# UsuarioJ = User(nome="UsuarioJ", email="usuario@gmail.com", senha="1234")
-
-# # adicionando na base de dados
-# session.add(UsuarioJ)
-# session.commit()
-
-# usuarios = select(User.nome, User.id, User.email, User.senha)
-# with Session(engine) as session:
-#     for row in session.execute(usuarios):
-#         print(row)
