@@ -157,38 +157,26 @@ def login(session: SessionDB, usuario: UserSchemaValidate):
     return Token(access_token=access_token, token_type="bearer")
 
 
+# como essa classe é uma dependencia de uma função o fast-api compreende que é uma dependencia e que precisa adicionar um token de validação
 class JWTBearer(HTTPBearer):
     def __init__(self, auto_error: bool = True):
         super(JWTBearer, self).__init__(auto_error=auto_error)
 
     async def __call__(self, request: Request):
+        # Obtém as credenciais (token) da requisição
         credentials: HTTPAuthorizationCredentials = await super(
             JWTBearer, self
         ).__call__(request)
+
         if credentials:
-            if not credentials.scheme == "Bearer":
+            if credentials.scheme != "Bearer":
                 raise HTTPException(
                     status_code=403, detail="Invalid authentication scheme."
                 )
-            if not self.verify_jwt(credentials.credentials):
-                raise HTTPException(
-                    status_code=403, detail="Invalid token or expired token."
-                )
+            # Retorna o token para ser validado em `get_current_user`
             return credentials.credentials
         else:
             raise HTTPException(status_code=403, detail="Invalid authorization code.")
-
-    def verify_jwt(self, jwtoken: str) -> bool:
-        isTokenValid: bool = False
-
-        try:
-            payload = jwt.decode(jwtoken, SECRET_KEY, algorithms=ALGORITHM)
-        except:
-            payload = None
-        if payload:
-            isTokenValid = True
-
-        return isTokenValid
 
 
 async def get_current_user(
@@ -197,22 +185,36 @@ async def get_current_user(
     try:
         # Decodifica o token JWT
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        # verificando se esta expirado
-        if datetime.fromtimestamp(payload["exp"]) < datetime.now():
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Token expired",
-                headers={"WWW-Authenticate": "Bearer"},
-            )
-    except (jwt.PyJWTError, ValidationError):
+        # Verifica se o token está expirado
+    except jwt.ExpiredSignatureError:
+        payload = jwt.decode(
+            token, SECRET_KEY, algorithms=[ALGORITHM], options={"verify_exp": False}
+        )
+        exp_timestamp = payload.get("exp")
+        # Calcula quanto tempo desde a expiração
+        if exp_timestamp:
+            expired_at = datetime.fromtimestamp(exp_timestamp, tz=timezone.utc)
+            time_since_expiration = datetime.now(timezone.utc) - expired_at
+            expired_message = f"Token expired {time_since_expiration} ago"
+        else:
+            expired_message = "Token expired, but expiration time is unavailable."
+        # Aqui da erro de token invalidado
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail=expired_message,
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    # aqui da erro de token não foi credenciado
+    except jwt.PyJWTError:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Could not validate credentials",
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-    # Obtém o usuário pelo email do token
+    # Obtém o usuário pelo email do payload
     user = session.query(UserModelIn).filter_by(email=payload["email"]).first()
+    # se usuario sumiu vem para ca
     if user is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
