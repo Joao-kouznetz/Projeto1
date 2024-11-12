@@ -15,7 +15,7 @@ import os
 load_dotenv()
 
 # Obter o salt da variável de ambiente
-sqlite_file_name = os.getenv("SALT")
+sqlite_file_name = os.getenv("sqlite_file_name")
 sqlite_url = f"sqlite:///{sqlite_file_name}"
 
 engine = create_engine(sqlite_url)
