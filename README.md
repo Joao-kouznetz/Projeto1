@@ -1,4 +1,3 @@
-
 # Como rodar o código
 
 ## 1. Criar o Ambiente Virtual
