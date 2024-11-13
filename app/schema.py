@@ -57,3 +57,13 @@ class UserValidate(BaseModel):
         description="email do usuario",
     )
     senha: str = Field(..., description="Coloque a sua senha")
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+
+class TokenData(BaseModel):
+    email: str
+    exp: str
