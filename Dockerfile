@@ -12,13 +12,10 @@ ENV SECRET_KEY="2e6e8cc741f246604c750dcc672fed67c877b2fe9f77eafaa41245ce91b5a0d3
 
 # Instalando as dependências
 # Caso você tenha um requirements.txt, utilize:
-# COPY requirements.txt ./  # Copia o arquivo requirements.txt para dentro do container
-RUN pip install "fastapi[standard]"
-RUN pip install SQLAlchemy
-RUN pip install pydantic
-RUN pip install uuid
-RUN pip install PyJWT
-RUN pip install passlib
+COPY requirements.txt ./ 
+# Instalando as dependências
+RUN pip install --no-cache-dir -r requirements.txt
+
 
 # Garantir que a pasta do app tenha permissões corretas para o SQLite
 RUN chmod -R 777 /usr/local/app
