@@ -21,7 +21,7 @@ services:
         image: mysql:8.0
         restart: always
         environment:
-            MYSQL_ROOT_PASSWORD: root_password
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root_password}
             MYSQL_USER: ${MYSQL_USER:-user}
             MYSQL_PASSWORD: ${MYSQL_PASSWORD:-cloud}
             MYSQL_DATABASE: ${MYSQL_DB:-db}
