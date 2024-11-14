@@ -14,11 +14,12 @@ import os
 # Carregar variáveis de ambiente do arquivo .env
 load_dotenv()
 
+
 # Obter o salt da variável de ambiente
 sqlite_file_name = os.getenv("sqlite_file_name")
 sqlite_url = f"sqlite:///{sqlite_file_name}"
-
-engine = create_engine(sqlite_url)
+DATABASE_URL = f"mysql+mysqlconnector://{os.getenv('MYSQL_USER')}:{os.getenv('MYSQL_PASSWORD')}@mysql:{os.getenv('DB_PORT')}/{os.getenv('MYSQL_DATABASE')}"
+engine = create_engine(DATABASE_URL)
 # A url indica, qual é a database que utilizaremos,
 # echo indica para colocar todos os SQL it emits to a Python logger that will write to standard out.
 

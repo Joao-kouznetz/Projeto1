@@ -4,7 +4,7 @@ FROM python:3.10-slim
 WORKDIR /usr/local/app
 
 # Copiando o conteúdo da pasta local 'app' para dentro do container
-COPY app ./
+COPY ./ ./
 
 ENV salt="18274393"
 ENV sqlite_file_name="database.db"
@@ -15,6 +15,7 @@ ENV SECRET_KEY="2e6e8cc741f246604c750dcc672fed67c877b2fe9f77eafaa41245ce91b5a0d3
 COPY requirements.txt ./ 
 # Instalando as dependências
 RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install mysql-connector-python
 
 
 # Garantir que a pasta do app tenha permissões corretas para o SQLite

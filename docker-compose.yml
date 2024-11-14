@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+    app:
+        build: ./app
+        ports:
+            - "8000:8000"
+        environment:
+            - SECRET_KEY=${SECRET_KEY:-2e6e8cc741f246604c750dcc672fed67c877b2fe9f77eafaa41245ce91b5a0d3}
+            - sqlite_file_name=${sqlite_file_name:-database.db}
+            - salt=${salt:-18274393}
+            - MYSQL_USER=${MYSQL_USER:-user}
+            - MYSQL_PASSWORD=${MYSQL_PASSWORD:-cloud}
+            - DB_HOST=mysql # Conecta no serviço MySQL via nome do serviço
+            - DB_PORT=3306
+            - MYSQL_DATABASE=${MYSQL_DB:-db}
+        volumes:
+            - ./app:/usr/local/app
+        depends_on:
+            - mysql
+
+    mysql:
+        image: mysql:8.0 # Certifique-se de usar uma versão compatível do MySQL
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: root_password # Defina uma senha para o root
+            MYSQL_USER: ${MYSQL_USER:-user}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD:-cloud}
+            MYSQL_DATABASE: ${MYSQL_DB:-db}
+        ports:
+            - "3306:3306"
+        volumes:
+            - mysql_data:/var/lib/mysql # Para persistência de dados entre reinicializações
+
+volumes:
+    mysql_data: # Volume persistente para o banco de dados MySQL

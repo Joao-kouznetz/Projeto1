@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Query, APIRouter, HTTPException, status, Depends, Request
-from sqlalchemy import select  # para conseguir manipular a base de dados
+from sqlalchemy import select, text  # para conseguir manipular a base de dados
 from models import User as UserModel
 from models import UserIn as UserModelIn
 from schema import User as UserSchema
@@ -19,8 +19,18 @@ from router import router_user
 
 
 # faz codigo abaixo para criar os banco de dados quando a aplicação é inciada
+
+import time
+from sqlalchemy.exc import OperationalError
+
+
+def wait_for_mysql():
+    time.sleep(10)
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    wait_for_mysql()
     create_db_and_tables()
     yield
 
