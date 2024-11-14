@@ -27,11 +27,12 @@ services:
             MYSQL_USER: ${MYSQL_USER:-user}
             MYSQL_PASSWORD: ${MYSQL_PASSWORD:-cloud}
             MYSQL_DATABASE: ${MYSQL_DB:-db}
-        ports:
-            - "3306:3306"
+        # ports:
+        #     - "3306:3306"
+        # porque posso tirar essa porta que fica aberta?
         volumes:
             - mysql_data:/var/lib/mysql_data
             # esse é um lugar justo para volume de dada
 volumes:
     mysql_data:
-        # Volume persistente para o banco de dados MySQL?
+        # Volume persistente para o banco de dados MySQL? ate com isso quando da docker compose down perde os dados

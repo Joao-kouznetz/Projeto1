@@ -6,10 +6,6 @@ WORKDIR /usr/local/app
 # Copiando o conteúdo da pasta local 'app' para dentro do container
 COPY ./ ./
 
-ENV salt="18274393"
-ENV sqlite_file_name="database.db"
-ENV SECRET_KEY="2e6e8cc741f246604c750dcc672fed67c877b2fe9f77eafaa41245ce91b5a0d3"
-
 # Instalando as dependências
 # Caso você tenha um requirements.txt, utilize:
 COPY requirements.txt ./ 

@@ -16,8 +16,6 @@ load_dotenv()
 
 
 # Obter o salt da variável de ambiente
-sqlite_file_name = os.getenv("sqlite_file_name")
-sqlite_url = f"sqlite:///{sqlite_file_name}"
 DATABASE_URL = f"mysql+mysqlconnector://{os.getenv('MYSQL_USER')}:{os.getenv('MYSQL_PASSWORD')}@mysql:{os.getenv('DB_PORT')}/{os.getenv('MYSQL_DATABASE')}"
 engine = create_engine(DATABASE_URL)
 # A url indica, qual é a database que utilizaremos,

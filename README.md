@@ -38,4 +38,24 @@ pip install -r requirements.txt
 fastapi dev main.py
 ```
 
+Com docker ficou bem mais facil: agora é so fazer o seguinte qunado for rodar a primeira vez
+
+```
+docker-compose up --build
+```
+
+e quando ja river rodado isso fazer o seguinte:
+
+```
+docker-compose up
+```
+
+e para descer o app fazer
+
+```
+docker-compose down
+```
+
+precisa dar build se você mudar algo na configuração do docker
+
 # Informações sobre como o projeto é desenvolvido no arquivo DEVELOPER.md
