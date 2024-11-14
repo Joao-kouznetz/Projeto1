@@ -9,7 +9,7 @@ services:
             - salt=${salt:-18274393}
             - MYSQL_USER=${MYSQL_USER:-user}
             - MYSQL_PASSWORD=${MYSQL_PASSWORD:-cloud}
-            - DB_HOST=mysql # Conecta no serviço MySQL via nome do serviço
+            - DB_HOST=mysql # porque aqui não pode ser localhost pq da ruim?
             - DB_PORT=3306
             - MYSQL_DATABASE=${MYSQL_DB:-db}
         volumes:
@@ -18,17 +18,18 @@ services:
             - mysql
 
     mysql:
-        image: mysql:8.0 # Certifique-se de usar uma versão compatível do MySQL
+        image: mysql:8.0
         restart: always
         environment:
-            MYSQL_ROOT_PASSWORD: root_password # Defina uma senha para o root
+            MYSQL_ROOT_PASSWORD: root_password
             MYSQL_USER: ${MYSQL_USER:-user}
             MYSQL_PASSWORD: ${MYSQL_PASSWORD:-cloud}
             MYSQL_DATABASE: ${MYSQL_DB:-db}
         ports:
             - "3306:3306"
         volumes:
-            - mysql_data:/var/lib/mysql # Para persistência de dados entre reinicializações
-
+            - mysql_data:/var/lib/mysql_data
+            # esse é um lugar justo para volume de dada
 volumes:
-    mysql_data: # Volume persistente para o banco de dados MySQL
+    mysql_data:
+        # Volume persistente para o banco de dados MySQL?
