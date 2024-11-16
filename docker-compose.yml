@@ -1,9 +1,9 @@
 services:
     app:
-        build: ./app
+        image: joaokb/projeto1-app # Utilize a imagem publicada no Docker Hub
         ports:
             - "8000:8000"
-            # ter portas abertas é ruim? como vou acessar se as portas?
+            # Portas abertas são necessárias para acessar o serviço fora do container.
         environment:
             - SECRET_KEY=${SECRET_KEY:-2e6e8cc741f246604c750dcc672fed67c877b2fe9f77eafaa41245ce91b5a0d3}
             - sqlite_file_name=${sqlite_file_name:-database.db}
@@ -13,13 +13,9 @@ services:
             - DB_HOST=mysql
             - DB_PORT=3306
             - MYSQL_DATABASE=${MYSQL_DB:-db}
-        volumes:
-            - ./app:/usr/local/app
-            # isso permite eu fazer alterações para desenvolvimento parece ser bem top
         depends_on:
             mysql:
                 condition: service_healthy
-                restart: true
 
     mysql:
         image: mysql:8.0

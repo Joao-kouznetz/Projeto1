@@ -11,7 +11,7 @@ COPY ./ ./
 COPY requirements.txt ./ 
 # Instalando as dependências
 RUN pip install --no-cache-dir -r requirements.txt
-# RUN pip install mysql-connector-python
+RUN pip install mysql-connector-python
 
 
 # Garantir que a pasta do app tenha permissões corretas para o SQLite
