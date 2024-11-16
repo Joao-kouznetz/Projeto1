@@ -22,6 +22,9 @@ from typing import Union, Any
 from schema import Token, TokenData
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
+# para fazer o scrapping
+import yfinance as yf
+
 load_dotenv()
 SALT = os.getenv("SALT")
 SECRET_KEY = os.getenv("SECRET_KEY")
@@ -199,7 +202,25 @@ async def get_current_user(
 
 
 @router_user.get(
-    "/me", tags=["Usuarios"], summary="Get details of currently logged in user"
+    "/data", tags=["Usuarios"], summary="Get details of currently logged in user"
 )
 async def get_me(user: UserSchema = Depends(get_current_user)):
-    return user
+    def get_ticker_data():
+        ticker_symbol = "T"
+        # Create a Ticker object
+        ticker = yf.Ticker(ticker_symbol)
+        # Fetch historical market data for the last 5 days
+        historical_data = ticker.history(period="5d")
+        # Select only the 'Close' column
+        close_prices = historical_data["Close"]
+        # Format the data for output
+        result = "\n".join(
+            [
+                f"{date.strftime('%Y-%m-%d')}: ${price:.2f}"
+                for date, price in close_prices.items()
+            ]
+        )
+        return f"Os dados da empresa T (A tesão) são: \n {result}"
+
+    if user:
+        return get_ticker_data()
