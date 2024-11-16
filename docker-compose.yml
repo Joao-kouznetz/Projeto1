@@ -10,14 +10,16 @@ services:
             - salt=${salt:-18274393}
             - MYSQL_USER=${MYSQL_USER:-user}
             - MYSQL_PASSWORD=${MYSQL_PASSWORD:-cloud}
-            - DB_HOST=mysql # porque aqui não pode ser localhost pq da ruim?
+            - DB_HOST=mysql
             - DB_PORT=3306
             - MYSQL_DATABASE=${MYSQL_DB:-db}
         volumes:
             - ./app:/usr/local/app
             # isso permite eu fazer alterações para desenvolvimento parece ser bem top
         depends_on:
-            - mysql
+            mysql:
+                condition: service_healthy
+                restart: true
 
     mysql:
         image: mysql:8.0
@@ -27,12 +29,8 @@ services:
             MYSQL_USER: ${MYSQL_USER:-user}
             MYSQL_PASSWORD: ${MYSQL_PASSWORD:-cloud}
             MYSQL_DATABASE: ${MYSQL_DB:-db}
-        # ports:
-        #     - "3306:3306"
-        # porque posso tirar essa porta que fica aberta?
-        volumes:
-            - mysql_data:/var/lib/mysql_data
-            # esse é um lugar justo para volume de dada
-volumes:
-    mysql_data:
-        # Volume persistente para o banco de dados MySQL? ate com isso quando da docker compose down perde os dados
+        healthcheck:
+            test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+            interval: 10s
+            timeout: 5s
+            retries: 10

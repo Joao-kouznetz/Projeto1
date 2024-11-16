@@ -20,17 +20,9 @@ from router import router_user
 
 # faz codigo abaixo para criar os banco de dados quando a aplicação é inciada
 
-import time
-from sqlalchemy.exc import OperationalError
-
-
-def wait_for_mysql():
-    time.sleep(10)
-
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    wait_for_mysql()
     create_db_and_tables()
     yield
 
