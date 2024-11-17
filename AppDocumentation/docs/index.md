@@ -1,3 +1,18 @@
+# Porque o projeto foi desenvolvido?
+
+Esse projeto tem como objetivo elaborar uma API RESTfull capaz de cadastrar e autenticar usuários. E dockernizar esse projeto para ser facilmente acessível.
+
+# Tecnologias utilizadas
+
+- FASTAPI (framework em python para desenvolvimento de APIs)
+- SWAGGERUI (incluso no fastapi para desenvolvimento automático de documentação)
+- PYDANTIC (método de tipagem para o python)
+- JWT (método seguro para transmitir dados de maneira segura)
+- SQLalchemy (ORM para conectar a base de dados)
+- MYSQL (base de dados)
+- Docker (método de conteinerização do aplicativo)
+- MKDocs (maneira de fazer documentação utilizando markdown)
+
 # Como rodar a aplicação?
 
 Para rodar a aplicação em a sua máquina local é apenas necessário utilizar o comando abaixo .

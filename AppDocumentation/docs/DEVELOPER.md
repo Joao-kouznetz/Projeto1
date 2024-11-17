@@ -1,9 +1,52 @@
-# Como é organizado um back-end fast-api
 
 # Como é a estrutura de código
 
-estamos seguindo a estrutura que esta sendo recomendada no seguinte github:
+Fui inspirado pela  estrutura que esta sendo recomendada no seguinte github:
 [best practicies in fast-api](https://github.com/zhanymkanov/fastapi-best-practices#1-project-structure-consistent--predictable)
+
+A estrutura que eu fiz á  a seguinte:
+
+```zsh
+├── app 
+│   ├── Dockerfile      # dockerfile utilizado para criar a imagme  
+│   ├── models.py      # global database models  
+│   ├── router.py  # router das apis  
+│   ├── database.py    # db connection related stuff  
+│   ├── requirements.py    # extensões do python  
+│   ├── schemas.py    # pydantic models  
+│   └── main.py  
+├── AppDocumentation/  
+│   ├── amkdocs.yml #configuração da documentação
+│   └── docs/
+│       ├──index.MD 
+│       ├── ... 
+│       └── DEVELOPER.MD  
+│   └── site/ # site gerado mkdocs 
+│       ├──index.html 
+│       ├── ... 
+│       └── 404.html
+├── requirements .txt  
+├── .env  
+├── .gitignore  
+├── docker-compose.yml # conteiner docker utilizado para testes
+└── docker-composeDEBELOPMENT.yml #conteiner docker utilizado em desenvolvimento
+```
+
+No fim do documento tem a estrutura recomendada:
+
+# Autenticação
+
+A autenticação foi feita utilizando JWT nela voce cria um token de acesso passando a informação que você quer encode com uma SECRET key um algoritmo de criptografia e coloca uma data de expiração para revogar a autenticação.Quando fizer uma requsição para esse endpoint ele vai devolver o token JWT que tera a autenticação.
+
+Para acessar os dados que foram criptografados é necesário do Token criado, para isso vai verfificar se o Usuario tem um token valido e vera se esse token ja foi expirado. Caso não for nenhum desses dois casos vai prosseguir com o intuito da requisição.
+
+[link para documentação de jwt](https://fastapi.tiangolo.com/tutorial/security/oauth2-jwt/#about-jwt)
+
+[Como fiz o bearer do jwt](https://testdriven.io/blog/fastapi-jwt-auth/)
+
+[link documentação do jwt](https://pyjwt.readthedocs.io/en/stable/api.html?highlight=decode#jwt.decode)
+
+# Estrutura recomendada no fast-api best practices
 
 In this structure, Each package has its own router, schemas, models, etc.
 
@@ -82,16 +125,10 @@ Each package has its own router, schemas, models, etc.
 
 [referencia](https://medium.com/@amirm.lavasani/how-to-structure-your-fastapi-projects-0219a6600a8f)
 
+Referencia do mkdocs [mkdocs.org](https://www.mkdocs.org).
+
 ## Schemas
 
 - A "schema" is a definition or description of something. Not the code that implements it, but just an abstract description.
 
 No caso estamos utilizando schema para modelar como seria os parâmetros que são necessários para passar para cada o modelo da base de dados
-
-# Autenticação
-
-[link para documentação de jwt](https://fastapi.tiangolo.com/tutorial/security/oauth2-jwt/#about-jwt)
-
-[Como fiz o bearer do jwt](https://testdriven.io/blog/fastapi-jwt-auth/)
-
-[link documentação do jwt](https://pyjwt.readthedocs.io/en/stable/api.html?highlight=decode#jwt.decode)

@@ -1,0 +1,6 @@
+site_name: App-Documentation
+nav:
+    - Home: index.md
+    # - API: API.md
+    - Developer: DEVELOPER.md
+theme: readthedocs
