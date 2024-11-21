@@ -5,4 +5,5 @@ nav:
     - Home: index.md
     # - API: API.md
     - Developer: DEVELOPER.md
+    - AWS: PublicandoAWS.md
 theme: readthedocs
