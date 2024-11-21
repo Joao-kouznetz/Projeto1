@@ -15,24 +15,26 @@ Esse projeto tem como objetivo elaborar uma API RESTfull capaz de cadastrar e au
 
 # Como rodar a aplicação?
 
+Consegue acessar a aplicação acessada no seguinte link: [link codigo rodando na aws](http://a56a2d01abb4e409fb50de31aa7a7f2a-868540365.sa-east-1.elb.amazonaws.com/docs#/)
+
 Para rodar a aplicação em a sua máquina local é apenas necessário utilizar o comando abaixo .
 
 ``` zsh
-docker-compose up
+docker compose up
 ```
 
 e para descer o app fazer
 
 ``` zsh
-docker-compose down
+docker compose down
 ```
 
-Caso você deseje alterar a aplicação um modelo do docker compose foi desenvolvido para motivos de desenvolvimento.Ele é nomeado de `docker-composeDEVELOPMENT.tml` para utilizar ele é necessário fazer os seguintes passos:
+Caso deseje criar na maquina local é necessario mudar o `compose.yaml` para que ele de build e não rode com o arquivo
 
 1. Clonar o repositório
 2. Na pasta raiz do repositório copiar o docker-composeDEVELOPMENT para o arquivo docker-compose.yml
-3. Com o docker baixado rodar o seguinte comando; `docker-compose up --build`
-4. Com isso você vai ter criado a sua própria imagem do app, voce pode utilizar agora os comandos `docker-compose up` e `docker-compose down` para colocar no ar e retirar do ar sua aplicação.
+3. Com o docker baixado rodar o seguinte comando; `docker compose up --build`
+4. Com isso você vai ter criado a sua própria imagem do app, voce pode utilizar agora os comandos `docker compose up` e `docker compose down` para colocar no ar e retirar do ar sua aplicação.
 
 # Como abrir a documentação
 
