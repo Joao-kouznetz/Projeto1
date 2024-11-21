@@ -1,5 +1,7 @@
 # Como rodar a aplicação?
 
+[link codigo rodando na aws](http://a56a2d01abb4e409fb50de31aa7a7f2a-868540365.sa-east-1.elb.amazonaws.com/docs#/)
+
 Para rodar a aplicação em a sua máquina local é apenas necessário utilizar o comando abaixo .
 
 ``` zsh
@@ -24,8 +26,6 @@ Caso você deseje alterar a aplicação um modelo do docker compose foi desenvol
 [Documentação online](https://joao-kouznetz.github.io/Projeto1/)
 
 Esse projeto tem dois tipos de documentação, uma feita com SWAGGERUI que é a documentação das apis e uma feita com Mkdocs. Para acessar a primeira  quando o projeto estiver rodando acessar a seguite url : `http://localhost:8000/docs`
-
-
 
 A segunda você pode acessar pelo link do github pages `https://joao-kouznetz.github.io/Projeto1/`
 pelos arquivos markdown na pasta `AppDocumentation/docs` ou de maneira mais estruturada voce roda o seguinte comando no terminal dentro da aba `appDocumeentation`
