@@ -49,6 +49,10 @@
                 <li class="toctree-l1"><a class="reference internal" href="DEVELOPER/">Developer</a>
                 </li>
               </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="PublicandoAWS/">AWS</a>
+                </li>
+              </ul>
       </div>
     </div>
     </nav>
@@ -86,18 +90,19 @@
 <li>MKDocs (maneira de fazer documentação utilizando markdown)</li>
 </ul>
 <h1 id="como-rodar-a-aplicacao">Como rodar a aplicação?</h1>
+<p>Consegue acessar a aplicação acessada no seguinte link: <a href="http://a56a2d01abb4e409fb50de31aa7a7f2a-868540365.sa-east-1.elb.amazonaws.com/docs#/">link codigo rodando na aws</a></p>
 <p>Para rodar a aplicação em a sua máquina local é apenas necessário utilizar o comando abaixo .</p>
-<pre><code class="language-zsh">docker-compose up
+<pre><code class="language-zsh">docker compose up
 </code></pre>
 <p>e para descer o app fazer</p>
-<pre><code class="language-zsh">docker-compose down
+<pre><code class="language-zsh">docker compose down
 </code></pre>
-<p>Caso você deseje alterar a aplicação um modelo do docker compose foi desenvolvido para motivos de desenvolvimento.Ele é nomeado de <code>docker-composeDEVELOPMENT.tml</code> para utilizar ele é necessário fazer os seguintes passos:</p>
+<p>Caso deseje criar na maquina local é necessario mudar o <code>compose.yaml</code> para que ele de build e não rode com o arquivo</p>
 <ol>
 <li>Clonar o repositório</li>
 <li>Na pasta raiz do repositório copiar o docker-composeDEVELOPMENT para o arquivo docker-compose.yml</li>
-<li>Com o docker baixado rodar o seguinte comando; <code>docker-compose up --build</code></li>
-<li>Com isso você vai ter criado a sua própria imagem do app, voce pode utilizar agora os comandos <code>docker-compose up</code> e <code>docker-compose down</code> para colocar no ar e retirar do ar sua aplicação.</li>
+<li>Com o docker baixado rodar o seguinte comando; <code>docker compose up --build</code></li>
+<li>Com isso você vai ter criado a sua própria imagem do app, voce pode utilizar agora os comandos <code>docker compose up</code> e <code>docker compose down</code> para colocar no ar e retirar do ar sua aplicação.</li>
 </ol>
 <h1 id="como-abrir-a-documentacao">Como abrir a documentação</h1>
 <p>Esse projeto tem dois tipos de documentação, uma feita com SWAGGERUI que é a documentação das apis e uma feita com Mkdocs. Para acessar a primeira  quando o projeto estiver rodando acessar a seguite url : <code>http://localhost:8000/docs</code></p>
@@ -153,5 +158,5 @@
 
 <!--
 MkDocs version : 1.6.1
-Build Date UTC : 2024-11-17 15:19:02.296131+00:00
+Build Date UTC : 2024-11-21 19:58:31.229631+00:00
 -->
