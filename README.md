@@ -21,7 +21,11 @@ Caso você deseje alterar a aplicação um modelo do docker compose foi desenvol
 
 # Como abrir a documentação
 
+[Documentação online](https://joao-kouznetz.github.io/Projeto1/)
+
 Esse projeto tem dois tipos de documentação, uma feita com SWAGGERUI que é a documentação das apis e uma feita com Mkdocs. Para acessar a primeira  quando o projeto estiver rodando acessar a seguite url : `http://localhost:8000/docs`
+
+
 
 A segunda você pode acessar pelo link do github pages `https://joao-kouznetz.github.io/Projeto1/`
 pelos arquivos markdown na pasta `AppDocumentation/docs` ou de maneira mais estruturada voce roda o seguinte comando no terminal dentro da aba `appDocumeentation`
