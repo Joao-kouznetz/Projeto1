@@ -3,7 +3,7 @@ docs_dir: docsmd # onde acha o md
 site_dir: docs # onde vai o site index
 nav:
     - Home: index.md
-    - API: Api.md
     - Developer: DEVELOPER.md
+    - API: Api.md
     - AWS: PublicandoAWS.md
 theme: readthedocs
