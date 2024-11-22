@@ -47,3 +47,48 @@ mkdocs serve
 ```
 
 Com isso abrira uma url em que voce pode ler a documentação de forma mais organizada
+
+# link para imgagem no docker hub
+
+[link para docker hub](https://hub.docker.com/repository/docker/joaokb/projeto1-app/general)
+
+# Onde o compose.yaml esta?
+
+O arquivo compose.yaml está na raiz do projeto.
+
+Segue o codigo dele:
+
+```yaml
+services:
+    app:
+        image: joaokb/projeto1-app # Utilize a imagem publicada no Docker Hub
+        ports:
+            - "8000:8000"
+            # Portas abertas são necessárias para acessar o serviço fora do container.
+        environment:
+            - SECRET_KEY=${SECRET_KEY:-2e6e8cc741f246604c750dcc672fed67c877b2fe9f77eafaa41245ce91b5a0d3}
+            - sqlite_file_name=${sqlite_file_name:-database.db}
+            - salt=${salt:-18274393}
+            - MYSQL_USER=${MYSQL_USER:-user}
+            - MYSQL_PASSWORD=${MYSQL_PASSWORD:-cloud}
+            - DB_HOST=mysql
+            - DB_PORT=3306
+            - MYSQL_DATABASE=${MYSQL_DB:-db}
+        depends_on:
+            mysql:
+                condition: service_healthy
+
+    mysql:
+        image: mysql:8.0
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root_password}
+            MYSQL_USER: ${MYSQL_USER:-user}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD:-cloud}
+            MYSQL_DATABASE: ${MYSQL_DB:-db}
+        healthcheck:
+            test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+            interval: 10s
+            timeout: 5s
+            retries: 10
+```

@@ -20,18 +20,12 @@ e para descer o app fazer
 docker-compose down
 ```
 
-Caso você deseje alterar a aplicação um modelo do docker compose foi desenvolvido para motivos de desenvolvimento.Ele é nomeado de `docker-composeDEVELOPMENT.tml` para utilizar ele é necessário fazer os seguintes passos:
-
-1. Clonar o repositório
-2. Na pasta raiz do repositório copiar o docker-composeDEVELOPMENT para o arquivo docker-compose.yml
-3. Com o docker baixado rodar o seguinte comando; `docker-compose up --build`
-4. Com isso você vai ter criado a sua própria imagem do app, voce pode utilizar agora os comandos `docker-compose up` e `docker-compose down` para colocar no ar e retirar do ar sua aplicação.
-
 # Como abrir a documentação
 
 [Documentação online](https://joao-kouznetz.github.io/Projeto1/)
 
-Esse projeto tem dois tipos de documentação, uma feita com SWAGGERUI que é a documentação das apis e uma feita com Mkdocs. Para acessar a primeira  quando o projeto estiver rodando acessar a seguite url : `http://localhost:8000/docs`
+Esse projeto tem dois tipos de documentação, uma feita com SWAGGERUI que é a
+documentação das apis e uma feita com Mkdocs. Para acessar a primeira  quando o projeto estiver rodando acessar a seguite url : `http://localhost:8000/docs`
 
 A segunda você pode acessar pelo link do github pages `https://joao-kouznetz.github.io/Projeto1/`
 pelos arquivos markdown na pasta `AppDocumentation/docs` ou de maneira mais estruturada voce roda o seguinte comando no terminal dentro da aba `appDocumeentation`
@@ -41,6 +35,10 @@ mkdocs serve
 ```
 
 Com isso abrira uma url em que voce pode ler a documentação de forma mais organizada
+
+# Abrindo docker hub
+
+[link para docker hub](https://hub.docker.com/repository/docker/joaokb/projeto1-app/general)
 
 # Documentação de Deploy com MkDocs
 
