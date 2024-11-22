@@ -8,6 +8,10 @@ Explicação do projeto: Ele retorna os dados de preço mais recentes da ação 
 
 [link do video](https://youtu.be/MNcifldxVqQ)
 
+# Video Etapa 2
+
+[video etapa 2](https://youtu.be/dDHwxQs5pjQs)
+
 # Como rodar a aplicação?
 
 [link codigo rodando na aws](http://a56a2d01abb4e409fb50de31aa7a7f2a-868540365.sa-east-1.elb.amazonaws.com/docs#/)

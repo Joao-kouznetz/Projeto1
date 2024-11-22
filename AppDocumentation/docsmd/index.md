@@ -95,4 +95,10 @@ services:
 
 # link video etapa 1
 
-![PROVA QUE APP FUNFA](https://youtu.be/MNcifldxVqQ)
+[link video PROVA QUE APP FUNFA](<https://youtu.be/MNcifldxVqQ>)
+
+# link video etapa 2
+
+# Video Etapa 2
+
+[video etapa 2](https://youtu.be/dDHwxQs5pjQs)
