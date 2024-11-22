@@ -155,6 +155,18 @@ spec:
             - name: DB_PORT
               value: &quot;3306&quot;
             - name: MYSQL_DATABASE
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: fastapi-service
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 8000
+  selector:
+    app: fastapi
 </code></pre>
 <ol>
 <li>Criando arquivo do deploy da database: <code>db-deployment.yaml</code></li>
