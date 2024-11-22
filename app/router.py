@@ -202,7 +202,7 @@ async def get_current_user(
 
 
 @router_user.get(
-    "/data", tags=["Usuarios"], summary="Get details of currently logged in user"
+    "/consultar", tags=["Usuarios"], summary="Get details of currently logged in user"
 )
 async def get_me(user: UserSchema = Depends(get_current_user)):
     def get_ticker_data():
@@ -220,7 +220,7 @@ async def get_me(user: UserSchema = Depends(get_current_user)):
                 for date, price in close_prices.items()
             ]
         )
-        return f"Os dados da empresa T (A tesão) são: \n {result}"
+        return f"Os dados da empresa T  são: \n {result}"
 
     if user:
         return get_ticker_data()

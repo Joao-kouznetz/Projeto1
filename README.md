@@ -2,7 +2,7 @@
 
 Nome do aluno: João Kouznetz Lemos Bresser Pereira
 
-Explicação do projeto: Ele retorna os dados de preço mais recentes da ação com o ticker `T`
+Explicação do projeto: Ele retorna os dados de preço mais recentes da ação com o ticker `T``
 
 # Como rodar a aplicação?
 
