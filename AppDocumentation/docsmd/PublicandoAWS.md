@@ -76,9 +76,21 @@ spec:
             - name: DB_PORT
               value: "3306"
             - name: MYSQL_DATABASE
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: fastapi-service
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 8000
+  selector:
+    app: fastapi
 ```
 
-5. Criando arquivo do deploy da database: `db-deployment.yaml`
+1. Criando arquivo do deploy da database: `db-deployment.yaml`
 
 variaveis de enveroment como exemplo:
 
