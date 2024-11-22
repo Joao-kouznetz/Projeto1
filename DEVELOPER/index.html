@@ -43,6 +43,10 @@
                 <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
                 </li>
               </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../API/">API</a>
+                </li>
+              </ul>
               <ul class="current">
                 <li class="toctree-l1 current"><a class="reference internal current" href="#">Developer</a>
     <ul class="current">
@@ -189,11 +193,26 @@
 <li>A "schema" is a definition or description of something. Not the code that implements it, but just an abstract description.</li>
 </ul>
 <p>No caso estamos utilizando schema para modelar como seria os parâmetros que são necessários para passar para cada o modelo da base de dados</p>
+<h1 id="documentacao-de-deploy-com-mkdocs">Documentação de Deploy com MkDocs</h1>
+<p>Essa documentação explica os comandos necessários para construir e publicar a documentação do projeto usando MkDocs.</p>
+<h2 id="1-construcao-da-documentacao">1. Construção da Documentação</h2>
+<p>Para gerar a documentação localmente, use o comando:</p>
+<pre><code class="language-bash">mkdocs build
+</code></pre>
+<h2 id="publicando-no-git-hub-pages">Publicando no git hub -pages</h2>
+<pre><code class="language-zsh">mkdocs gh-deploy --remote-branch Docs
+</code></pre>
+<p>O que este comando faz?</p>
+<ul>
+<li>gh-deploy: Faz o deploy da documentação no GitHub Pages.</li>
+<li>--remote-branch Docs: Especifica que a documentação será enviada para a branch Docs do repositório remoto.</li>
+</ul>
+<p>Isso faz com que a versão mais recente da documentação gerada seja publicada na branch Docs, tornando-a acessível online.</p>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href=".." class="btn btn-neutral float-left" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../API/" class="btn btn-neutral float-left" title="API"><span class="icon icon-circle-arrow-left"></span> Previous</a>
         <a href="../PublicandoAWS/" class="btn btn-neutral float-right" title="AWS">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
@@ -217,7 +236,7 @@
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href=".." style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../API/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
       <span><a href="../PublicandoAWS/" style="color: #fcfcfc">Next &raquo;</a></span>
