@@ -46,6 +46,10 @@
                 </li>
               </ul>
               <ul>
+                <li class="toctree-l1"><a class="reference internal" href="Api/">API</a>
+                </li>
+              </ul>
+              <ul>
                 <li class="toctree-l1"><a class="reference internal" href="DEVELOPER/">Developer</a>
                 </li>
               </ul>
@@ -110,11 +114,49 @@
 <pre><code class="language-bash">mkdocs serve
 </code></pre>
 <p>Com isso abrira uma url em que voce pode ler a documentação de forma mais organizada</p>
+<h1 id="link-para-imgagem-no-docker-hub">link para imgagem no docker hub</h1>
+<p><a href="https://hub.docker.com/repository/docker/joaokb/projeto1-app/general">link para docker hub</a></p>
+<h1 id="onde-o-composeyaml-esta">Onde o compose.yaml esta?</h1>
+<p>O arquivo compose.yaml está na raiz do projeto.</p>
+<p>Segue o codigo dele:</p>
+<pre><code class="language-yaml">services:
+    app:
+        image: joaokb/projeto1-app # Utilize a imagem publicada no Docker Hub
+        ports:
+            - &quot;8000:8000&quot;
+            # Portas abertas são necessárias para acessar o serviço fora do container.
+        environment:
+            - SECRET_KEY=${SECRET_KEY:-2e6e8cc741f246604c750dcc672fed67c877b2fe9f77eafaa41245ce91b5a0d3}
+            - sqlite_file_name=${sqlite_file_name:-database.db}
+            - salt=${salt:-18274393}
+            - MYSQL_USER=${MYSQL_USER:-user}
+            - MYSQL_PASSWORD=${MYSQL_PASSWORD:-cloud}
+            - DB_HOST=mysql
+            - DB_PORT=3306
+            - MYSQL_DATABASE=${MYSQL_DB:-db}
+        depends_on:
+            mysql:
+                condition: service_healthy
+
+    mysql:
+        image: mysql:8.0
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root_password}
+            MYSQL_USER: ${MYSQL_USER:-user}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD:-cloud}
+            MYSQL_DATABASE: ${MYSQL_DB:-db}
+        healthcheck:
+            test: [&quot;CMD&quot;, &quot;mysqladmin&quot;, &quot;ping&quot;, &quot;-h&quot;, &quot;localhost&quot;]
+            interval: 10s
+            timeout: 5s
+            retries: 10
+</code></pre>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="DEVELOPER/" class="btn btn-neutral float-right" title="Developer">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="Api/" class="btn btn-neutral float-right" title="API">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -138,7 +180,7 @@
     
     
     
-      <span><a href="DEVELOPER/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="Api/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
@@ -158,5 +200,5 @@
 
 <!--
 MkDocs version : 1.6.1
-Build Date UTC : 2024-11-21 19:58:31.229631+00:00
+Build Date UTC : 2024-11-22 22:32:41.528135+00:00
 -->
