@@ -4,6 +4,10 @@ Nome do aluno: João Kouznetz Lemos Bresser Pereira
 
 Explicação do projeto: Ele retorna os dados de preço mais recentes da ação com o ticker `T``
 
+# Video Etapa 1
+
+[link do video](https://youtu.be/MNcifldxVqQ)
+
 # Como rodar a aplicação?
 
 [link codigo rodando na aws](http://a56a2d01abb4e409fb50de31aa7a7f2a-868540365.sa-east-1.elb.amazonaws.com/docs#/)
