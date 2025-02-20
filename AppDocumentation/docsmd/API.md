@@ -40,6 +40,9 @@ Esta API permite o gerenciamento de usuários, autenticação e acesso a informa
   - **Status:** `409 Conflict` – Caso o e-mail já esteja cadastrado.
 - **Tags:** `Usuarios`
 - **Descrição:** Adiciona um novo usuário com as informações fornecidas.
+-
+
+![alt text](image-8.png)
 
 ---
 
@@ -56,6 +59,7 @@ Esta API permite o gerenciamento de usuários, autenticação e acesso a informa
   - **Status:** `401 Unauthorized` – Caso o e-mail não esteja cadastrado ou a senha esteja incorreta.
 - **Tags:** `Usuarios`
 - **Descrição:** Autentica um usuário e retorna o token JWT se as credenciais estiverem corretas.
+![alt text](image-9.png)
 
 ---
 
@@ -74,6 +78,7 @@ Esta API permite o gerenciamento de usuários, autenticação e acesso a informa
   - **Status:** `404 Not Found` – Caso o usuário não seja encontrado.
 - **Tags:** `Usuarios`
 - **Descrição:** Retorna detalhes históricos da empresa "T" (via Yahoo Finance) para o usuário autenticado.
+![alt text](image-10.png)
 
 ---
 
@@ -93,6 +98,7 @@ Esta API permite o gerenciamento de usuários, autenticação e acesso a informa
   - **Status:** `404 Not Found` – Caso o usuário autenticado não seja encontrado.
 - **Tags:** `Usuarios`
 - **Descrição:** Retorna os dados históricos de mercado da empresa "T" (via Yahoo Finance) para o usuário atualmente autenticado.
+![alt text](image-10.png)
 
 ---
 
